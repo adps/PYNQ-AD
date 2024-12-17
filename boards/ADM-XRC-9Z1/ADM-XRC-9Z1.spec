@@ -1,0 +1,6 @@
+ARCH_ADM-XRC-9Z1 := aarch64
+BSP_ADM-XRC-9Z1 := ADM-XRC-9Z1-2020.2.bsp
+BITSTREAM_ADM-XRC-9Z1 := ADM-XRC-9Z1.bit
+FPGA_MANAGER_ADM-XRC-9Z1 := 1
+
+STAGE4_PACKAGES_ADM-XRC-9Z1 := xrt pynq ethernet sensorconf pynq_peripherals
