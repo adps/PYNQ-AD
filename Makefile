@@ -13,7 +13,7 @@ PYNQ_SDIST := pynq-2.7.0.tar.gz
 PYNQ_SDIST_URL := https://github.com/Xilinx/PYNQ/releases/download/v2.7.0/$(PYNQ_SDIST)
 PYNQ_SDIST_PATH := $(PYNQ_PREBUILT)/$(PYNQ_SDIST)
 
-all: $(BOARD_REPO)/$(BOARD)/$(BOARD)-$(PYNQ_VERSION).img
+all: $(PYNQ_ROOT)/sdbuild/output/$(BOARD)-$(PYNQ_VERSION).img
 
 $(PYNQ_ROOT):
 	git clone \
@@ -35,7 +35,7 @@ $(PYNQ_SDIST_PATH): $(PYNQ_PREBUILT)
 		cd $(PYNQ_PREBUILT) && wget $(PYNQ_SDIST_URL); \
 	fi
 
-$(BOARD_REPO)/$(BOARD)/$(BOARD)-$(PYNQ_VERSION).img: $(PYNQ_ROOT) $(PYNQ_ARCH_PATH) $(PYNQ_SDIST_PATH)
+$(PYNQ_ROOT)/sdbuild/output/$(BOARD)-$(PYNQ_VERSION).img: $(PYNQ_ROOT) $(PYNQ_ARCH_PATH) $(PYNQ_SDIST_PATH)
 	@echo "PYNQ image generation for board $(BOARD) started"
 	cd $(PYNQ_ROOT)/sdbuild && \
 	make BOARDDIR=$(BOARD_REPO) PREBUILT=$(PYNQ_ARCH_PATH) PYNQ_SDIST=$(PYNQ_SDIST_PATH) BOARDS=$(BOARD)
