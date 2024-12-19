@@ -1,4 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/base:bionic
+
+USER root
+
 RUN dpkg --add-architecture i386
 RUN apt update && apt-get install -y software-properties-common cmake
 
@@ -35,3 +38,11 @@ RUN export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:$LIBRARY_PATH && cd opencv/so
         ..
 RUN cd opencv/source/build && make all -j8 && make install
 ENV LD_LIBRARY_PATH=/workspace/opencv/install/lib:$LD_LIBRARY_PATH
+
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
+
+RUN useradd -ms /bin/bash jenkins
+RUN chown jenkins:jenkins /workspace
+USER jenkins
