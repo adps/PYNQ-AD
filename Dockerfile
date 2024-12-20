@@ -9,7 +9,7 @@ RUN apt update && apt-get install -y software-properties-common cmake
 WORKDIR /tmp/work
 RUN wget https://raw.githubusercontent.com/Xilinx/PYNQ/refs/heads/master/sdbuild/scripts/setup_host.sh
 RUN chmod +x setup_host.sh
-RUN /bin/sh -c /tmp/work/setup_host.sh
+RUN bash -c "source /tmp/work/setup_host.sh"
 RUN rm -r /tmp/work/*
 
 WORKDIR /workspace
@@ -38,6 +38,8 @@ RUN export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:$LIBRARY_PATH && cd opencv/so
         ..
 RUN cd opencv/source/build && make all -j8 && make install
 ENV LD_LIBRARY_PATH=/workspace/opencv/install/lib:$LD_LIBRARY_PATH
+
+ENV PATH=/opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
 
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
