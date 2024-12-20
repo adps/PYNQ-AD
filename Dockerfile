@@ -41,9 +41,12 @@ ENV LD_LIBRARY_PATH=/workspace/opencv/install/lib:$LD_LIBRARY_PATH
 
 ENV PATH=/opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
 
+RUN echo "dash dash/sh boolean false" | debconf-set-selections
+RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
+
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT source /entrypoint.sh
 
 RUN useradd -ms /bin/bash jenkins
 RUN chown jenkins:jenkins /workspace
