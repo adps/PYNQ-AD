@@ -41,4 +41,4 @@ $(PYNQ_ROOT)/sdbuild/output/$(BOARD)-$(PYNQ_VERSION).img: $(PYNQ_ROOT) $(PYNQ_AR
 	make BOARDDIR=$(BOARD_REPO) PREBUILT=$(PYNQ_ARCH_PATH) PYNQ_SDIST=$(PYNQ_SDIST_PATH) BOARDS=$(BOARD)
 
 docker_image:
-	docker build -t pynq:v2.7.0 $(ROOT_DIR)
+	docker build -t alphadata/pynq:v2.7.0 $(ROOT_DIR)
