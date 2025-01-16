@@ -1,9 +1,12 @@
-FROM mcr.microsoft.com/devcontainers/base:bionic
+# FROM mcr.microsoft.com/devcontainers/base:bionic
+
+FROM docker.io/ubuntu:18.04
 
 USER root
 
 RUN dpkg --add-architecture i386
 RUN apt update && apt-get install -y software-properties-common cmake
+RUN apt install -y wget sudo
 
 # Setup host for PYNQ - using file from master branch to get updates for old links
 WORKDIR /tmp/work
@@ -51,6 +54,6 @@ ENTRYPOINT [ "/bin/bash", "-c", "source /entrypoint.sh && exec \"$@\"", "--" ]
 RUN groupadd -g 1002 jenkins
 RUN useradd -u 1002 -g 1002 -ms /bin/bash jenkins
 RUN usermod -aG sudo jenkins
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN echo '%jenkins ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN chown jenkins:jenkins /workspace
 USER jenkins
