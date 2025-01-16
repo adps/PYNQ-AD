@@ -49,5 +49,7 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "source /entrypoint.sh && exec \"$@\"", "--" ]
 
 RUN useradd -ms /bin/bash jenkins
+RUN usermod -aG sudo jenkins
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN chown jenkins:jenkins /workspace
 USER jenkins
