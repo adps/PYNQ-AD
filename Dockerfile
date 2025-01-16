@@ -51,7 +51,8 @@ COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "source /entrypoint.sh && exec \"$@\"", "--" ]
 
-RUN apt-get install -y locales
+# Extra config for petalinux
+RUN apt-get install -y locales cpio
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
