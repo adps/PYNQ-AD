@@ -5,4 +5,4 @@ source /workspace/xilinx/petalinux/settings.sh &>/dev/null
 petalinux-util --webtalk off &>/dev/null
 source /workspace/xilinx/XRT/build/Release/opt/xilinx/xrt/setup.sh &>/dev/null
 export LM_LICENSE_FILE=2100@apollo &>/dev/null
-exec "$@"
+exec bash
