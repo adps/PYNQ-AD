@@ -46,7 +46,7 @@ RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
 
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-ENTRYPOINT source /entrypoint.sh
+ENTRYPOINT [ "/bin/bash", "-c", "source /entrypoint.sh && exec \"$@\"", "--" ]
 
 RUN useradd -ms /bin/bash jenkins
 RUN chown jenkins:jenkins /workspace
