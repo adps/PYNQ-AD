@@ -1,12 +1,12 @@
-# FROM mcr.microsoft.com/devcontainers/base:bionic
-
-FROM docker.io/ubuntu:18.04
+FROM docker.io/ubuntu:20.04
 
 USER root
 
 RUN dpkg --add-architecture i386
-RUN apt update && apt-get install -y software-properties-common cmake
-RUN apt install -y wget sudo
+RUN apt update && apt upgrade -y --force-yes && \
+    DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
+    software-properties-common lsb-core cmake wget sudo git \
+    subversion locales cpio libncurses-dev nano
 
 # Setup host for PYNQ - using file from master branch to get updates for old links
 WORKDIR /tmp/work
@@ -16,31 +16,6 @@ RUN bash -c "source /tmp/work/setup_host.sh"
 RUN rm -r /tmp/work/*
 
 WORKDIR /workspace
-
-# Install OpenCV 3.4.2
-RUN mkdir -p opencv/install
-RUN git clone https://github.com/opencv/opencv.git --depth 1 --branch 3.4.2 opencv/source
-RUN git clone https://github.com/opencv/opencv_contrib.git --depth 1 --branch 3.4.2 opencv/source_contrib
-RUN mkdir -p opencv/source/build
-RUN export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:$LIBRARY_PATH && cd opencv/source/build && \
-    cmake \
-        -D CMAKE_BUILD_TYPE=RELEASE \
-        -D CMAKE_INSTALL_PREFIX=/workspace/opencv/install\
-        -D WITH_V4L=ON \
-        -D OPENCV_EXTRA_MODULES_PATH=/workspace/opencv/source_contrib/modules \
-        -D BUILD_TESTS=OFF \
-        -D BUILD_ZLIB=ON \
-        -D BUILD_JPEG=ON \
-        -D WITH_JPEG=ON \
-        -D WITH_PNG=ON \
-        -D BUILD_EXAMPLES=OFF \
-        -D INSTALL_C_EXAMPLES=OFF \
-        -D INSTALL_PYTHON_EXAMPLES=OFF \
-        -D WITH_OPENEXR=OFF \
-        -D BUILD_OPENEXR=OFF \
-        ..
-RUN cd opencv/source/build && make all -j8 && make install
-ENV LD_LIBRARY_PATH=/workspace/opencv/install/lib:$LD_LIBRARY_PATH
 
 ENV PATH=/opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
 
@@ -52,7 +27,6 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "source /entrypoint.sh && exec \"$@\"", "--" ]
 
 # Extra config for petalinux
-RUN apt-get install -y locales cpio
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
