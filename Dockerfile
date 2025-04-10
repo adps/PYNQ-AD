@@ -25,6 +25,8 @@ ENV PATH=/opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
 RUN echo "dash dash/sh boolean false" | debconf-set-selections
 RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
 
+WORKDIR /workspace
+
 # Extra config for petalinux
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -37,4 +39,3 @@ RUN usermod -aG sudo jenkins
 RUN echo '%jenkins ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN chown jenkins:jenkins /workspace
 USER jenkins
-WORKDIR /workspace
