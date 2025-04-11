@@ -20,8 +20,7 @@ RUN chmod +x setup_host.sh
 RUN bash -c "source /tmp/work/setup_host.sh"
 RUN rm -r /tmp/work/*
 
-RUN apt update && apt upgrade -y --force-yes && \
-    DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
     diffstat perl tftpd-hpa python3 libx11-6:i386 libacl1 gnupg zstd \
     iputils-ping mesa-common-dev libqtgui4:i386 xz-utils libxcb-xkb-dev \
     libxext6:i386 cython bash liberror-perl sysvinit-utils libgtk2.0-0:i386 \
