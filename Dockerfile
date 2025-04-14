@@ -1,4 +1,4 @@
-FROM docker.io/ubuntu:20.04
+FROM docker.io/ubuntu:18.04
 
 USER root
 
@@ -10,7 +10,7 @@ RUN apt update && apt upgrade -y --force-yes && \
     libxtst6 libx11-6 libtinfo-dev libxrender-dev libfreetype6 libxi6 \
     libncurses5  xterm \
     libncurses5-dev libncursesw5-dev \
-    lib32ncurses6 autoconf libtool\
+    autoconf libtool \
     texinfo gcc-multilib
 
 # Setup host for PYNQ - using file from master branch to get updates for old links
@@ -32,12 +32,15 @@ RUN apt update && apt upgrade -y --force-yes && \
     openssl libsm6:i386 xinetd libxcb-shape0-dev python3-git openssh-server \
     putty pax libxrender1:i386
 
-ENV PATH=/opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
+ENV PATH /opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
 
 RUN echo "dash dash/sh boolean false" | debconf-set-selections
 RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
 
 WORKDIR /workspace
+
+# Preload libudev for Vivado when running in Docker
+ENV LD_PRELOAD /lib/x86_64-linux-gnu/libudev.so.1:$LD_PRELOAD
 
 # Extra config for petalinux
 RUN locale-gen en_US.UTF-8
