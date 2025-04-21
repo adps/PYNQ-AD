@@ -52,5 +52,5 @@ RUN groupadd -g 1001 jenkins
 RUN useradd -u 1001 -g 1001 -ms /bin/bash jenkins
 RUN usermod -aG sudo jenkins
 RUN echo '%jenkins ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN chown jenkins:jenkins /workspace
+RUN chown 1001:1001 /workspace
 USER jenkins
