@@ -30,7 +30,7 @@ RUN apt update && apt upgrade -y --force-yes && \
     zip expect ncurses-dev xtrans-dev util-linux gcc debianutils screen file \
     libxcb-xtest0-dev haveged mtd-utils libxcb-randr0-dev liblz4-tool iproute2 \
     openssl libsm6:i386 xinetd libxcb-shape0-dev python3-git openssh-server \
-    putty pax libxrender1:i386
+    putty pax libxrender1:i386 parted
 
 ENV PATH /opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
 
