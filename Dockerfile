@@ -19,20 +19,20 @@ RUN chmod +x *.sh
 
 # PYNQ
 RUN ./setup_host.sh
-ENV PATH /opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
+ENV PATH=/opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
 
 # AMD Xilinx 2020.2 tools
 RUN ./installLibs.sh
 # Preload libudev for Vivado -> needed when running in Docker
-ENV LD_PRELOAD /lib/x86_64-linux-gnu/libudev.so.1:$LD_PRELOAD
+ENV LD_PRELOAD=/lib/x86_64-linux-gnu/libudev.so.1:$LD_PRELOAD
 
 # PetaLinux
 RUN ./plnx-env-setup.sh
 # Generate locale data -> needed for PetaLinux
 RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 RUN rm -rf /tmp/work
 
