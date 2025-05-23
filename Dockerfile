@@ -44,6 +44,6 @@ ARG GROUP_ID
 RUN groupadd -g ${GROUP_ID} ${USER_NAME}
 RUN useradd -u ${USER_ID} -g ${GROUP_ID} -ms /bin/bash ${USER_NAME}
 RUN usermod -aG sudo ${USER_NAME}
-RUN echo '%${USER_NAME} ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN chown ${USER_NAME}:${USER_NAME} /workspace
 USER ${USER_NAME}
