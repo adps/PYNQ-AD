@@ -24,7 +24,7 @@ ENV PATH=/opt/qemu/bin:/opt/crosstool-ng/bin:$PATH
 # AMD Xilinx 2020.2 tools
 RUN ./installLibs.sh
 # Preload libudev for Vivado -> needed when running in Docker
-ENV LD_PRELOAD=/lib/x86_64-linux-gnu/libudev.so.1:$LD_PRELOAD
+ENV LD_PRELOAD=/lib/x86_64-linux-gnu/libudev.so.1
 
 # PetaLinux
 RUN ./plnx-env-setup.sh
