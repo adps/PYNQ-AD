@@ -36,11 +36,14 @@ ENV LC_ALL=en_US.UTF-8
 
 RUN rm -rf /tmp/work
 
-# Set up passwordless sudo user for Jenkins
+# Set up passwordless sudo user with own group using build arguments
 WORKDIR /workspace
-RUN groupadd -g 1001 jenkins
-RUN useradd -u 1001 -g 1001 -ms /bin/bash jenkins
-RUN usermod -aG sudo jenkins
-RUN echo '%jenkins ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN chown jenkins:jenkins /workspace
-USER jenkins
+ARG USER_NAME
+ARG USER_ID
+ARG GROUP_ID
+RUN groupadd -g ${GROUP_ID} ${USER_NAME}
+RUN useradd -u ${USER_ID} -g ${GROUP_ID} -ms /bin/bash ${USER_NAME}
+RUN usermod -aG sudo ${USER_NAME}
+RUN echo '%${USER_NAME} ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN chown ${USER_NAME}:${USER_NAME} /workspace
+USER ${USER_NAME}
