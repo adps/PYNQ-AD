@@ -8,9 +8,10 @@ RUN apt-get update && apt-get upgrade -y
 RUN echo "dash dash/sh boolean false" | debconf-set-selections
 RUN dpkg-reconfigure dash
 
-# Install packages necessary to run setup scripts
+# Install packages necessary to run the bulid and the setup scripts
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y \
-    software-properties-common lsb-core wget sudo tzdata parted
+    git wget zip software-properties-common lsb-core wget sudo \
+    tzdata parted
 
 # Run setup scripts
 WORKDIR /tmp/work
