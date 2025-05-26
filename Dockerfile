@@ -36,6 +36,9 @@ ENV LC_ALL=en_US.UTF-8
 
 RUN rm -rf /tmp/work
 
+# Set terminal type -> needed for tput to work correctly when building on Jenkins
+ENV TERM=xterm
+
 # Set up passwordless sudo user with own group using build arguments
 WORKDIR /workspace
 ARG USER_NAME
