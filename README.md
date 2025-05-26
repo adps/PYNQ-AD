@@ -8,13 +8,15 @@ This board repo containes the PYNQ 2.7.0 board files for supported Alpha-Data bo
 
 ## Build environment
 
-> [!NOTE] Ubuntu 18.04 or later is recommended for the build host.
+> [!NOTE]
+> Ubuntu 18.04 or later is recommended for the build host.
 
 Building PYNQ images requires a Linux build host with AMD Xilinx tools 2020.2 with the [Y2K22 patch](https://adaptivesupport.amd.com/s/article/76960?language=en_US), PetaLinux 2020.2, `qemu-user-static` and [Docker](https://docs.docker.com/engine/install/). The provided [Dockerfile](./Dockerfile) is configured for PYNQ image builds, including dependencies to run AMD Xilinx tools and PetaLinux mounted from the host system.
 
 The `alphadata/pynq:v2.7.0` Docker image can be rebuilt for the current user using the following `make` command.
 
-> [!NOTE] The current user will be set up with passwordless sudo privileges which is required for PYNQ image generation.
+> [!NOTE]
+> The current user will be set up with passwordless sudo privileges which is required for PYNQ image generation.
 
 ```bash
 cd /path/to/PYNQ-AD
@@ -23,7 +25,8 @@ make docker_image
 
 The following command will start the container with the `PYNQ-AD` repo mounted under `/workspace/PYNQ-AD` and the AMD Xilinx tools installed on the host, e.g. `/opt/Xilinx`, mounted under the same location. Setting a limit of 8 GB RAM with OOM kill disabled (and 8 CPU cores) is recommended to prevent `Out Of Memory Exceptions (OOME)` killing processes in the container, potentially failing the build.
 
-> [!NOTE] The Docker image is run with the --privileged flag to allow mounting the necessary paths when building the PYNQ image.
+> [!NOTE]
+> The Docker image is run with the --privileged flag to allow mounting the necessary paths when building the PYNQ image.
 
 ```bash
 docker run --rm --init --memory 8g --oom-kill-disable --cpus 8 --privileged --volume /path/to/PYNQ-AD:/workspace/PYNQ-AD --volume /tmp --mount type=bind,src=/opt/Xilinx,dst=/opt/Xilinx,ro,consistency=cached -it alphadata/pynq:v2.7.0 bash
@@ -41,7 +44,8 @@ export LM_LICENSE_FILE=<license server/file location>
 
 ## Image generation
 
-> [!NOTE] Generating a PYNQ image requires ~50GB free space on the build host.
+> [!NOTE]
+> Generating a PYNQ image requires ~50GB free space on the build host.
 
 Once the build environment is correctly set up, the required PYNQ image can be generated inside the Docker container using the following `make` command, where `<board name>` corresponds to the name of a supported Alpha-Data board.
 
