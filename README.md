@@ -1,6 +1,6 @@
 # PYNQ-enabled Alpha Data boards
 
-This board repo containes the PYNQ 2.7.0 board files for supported Alpha-Data boards and the necessary build files to build them using [Docker](https://www.docker.com/) and [Jenkins](https://www.jenkins.io/).
+This board repo containes the PYNQ 2.7.0 board files for supported Alpha-Data boards and the necessary files for building them in a Dockerised environment.
 
 ## Supported boards
 
@@ -16,7 +16,7 @@ Building PYNQ images requires a Linux build host with AMD Xilinx tools 2020.2 wi
 The `alphadata/pynq:v2.7.0` Docker image can be rebuilt for the current user using the following `make` command.
 
 > [!NOTE]
-> The current user will be set up with passwordless sudo privileges which is required for PYNQ image generation.
+> The current user will be set up with `passwordless sudo` privileges which is required for PYNQ image generation.
 
 ```bash
 cd /path/to/PYNQ-AD
@@ -26,13 +26,13 @@ make docker_image
 The following command will start the container with the `PYNQ-AD` repo mounted under `/workspace/PYNQ-AD` and the AMD Xilinx tools installed on the host, e.g. `/opt/Xilinx`, mounted under the same location. Setting a limit of 8 GB RAM with OOM kill disabled (and 8 CPU cores) is recommended to prevent `Out Of Memory Exceptions (OOME)` killing processes in the container, potentially failing the build.
 
 > [!NOTE]
-> The Docker image is run with the --privileged flag to allow mounting the necessary paths when building the PYNQ image.
+> The Docker image is run with the `--privileged` flag to allow mounting the necessary paths when building the PYNQ image.
 
 ```bash
 docker run --rm --init --memory 8g --oom-kill-disable --cpus 8 --privileged --volume /path/to/PYNQ-AD:/workspace/PYNQ-AD --volume /tmp --mount type=bind,src=/opt/Xilinx,dst=/opt/Xilinx,ro,consistency=cached -it alphadata/pynq:v2.7.0 bash
 ```
 
-Inside the container, source Vivado, Vitis and PetaLinx 2020.2 from the mounted location. Optionally specify license server/file location for Vivado.
+Inside the container, source Vivado, Vitis and PetaLinux 2020.2 from the mounted location. Optionally, specify license server/file location for Vivado.
 
 ```bash
 source /opt/Xilinx/Vivado/2020.2/settings64.sh
@@ -53,10 +53,6 @@ Once the build environment is correctly set up, the required PYNQ image can be g
 cd /workspace/PYNQ-AD
 make BOARD=<board name>
 ```
-
-## Building on Jenkins
-
-The provided [Jenkinsfile](./Jenkinsfile) describes an example pipeline to build the [ADM-XRC-9Z1](https://alpha-data.com/product/adm-xrc-9z1/) PYNQ image using Jenkins and Docker. The example Jenkins build node has the `docker` label with the AMD Xilinx tools 2020.2 and PetaLinux 2020.2 installed under `/opt/Xilinx`. The build step uses Alpha-Data's internal license server and archives the final PYNQ image on completion.
 
 ## Development notes
 
